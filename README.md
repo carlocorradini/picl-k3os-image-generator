@@ -10,7 +10,11 @@ This project can be used to generate images for k3os compatible with various arm
 ## Getting Started
 
 - First, make a list of devices you want to use in your k3s cluster, their hardware types and the MAC addresses of their eth0 interface. (To find the MAC, boot any supported OS, perhaps the one that comes on the included SD card if you have one, and `cat /sys/class/net/eth0/address`. Or, just continue with a dummy config and the initial boot will say "there is no config for MAC xx:xx:xx:xx:xx:xx", and then you know what to call it.)
-- In the config/ directory, create one configuration file for each device, named as `{MAC}.yaml` (e.g. `dc:a6:32:aa:bb:cc.yaml`). The appropriate file will be used as a config.yaml eventually.
+- Ensure git is installed: `sudo apt-get install git`
+- Clone the repo: `sudo git clone https://github.com/sgielen/picl-k3os-image-generator.git /opt/`
+- Navigate to the application `cd /opt/picl-k3os-image-generator` (required for invokingthe script)
+- Make the build script executable: `sudo chmod 751 build-image.sh`
+- In the `config/` directory, create one configuration file for each device, named as `{MAC}.yaml` (e.g. `dc:a6:32:aa:bb:cc.yaml`). The appropriate file will be used as a config.yaml eventually. Examples of these configs can be found in the `config-examples/` directory.
 - For Raspberry Pi devices, you can choose which firmware to use for the build by setting an env variable `RASPBERRY_PI_FIRMWARE`
     - If unset, the script uses a known good version (set as `DEFAULT_GOOD_PI_VERSION` in the script)
     - Set to `latest`, which instructs the script to always pull the latest version available in the raspberry pi firmware repo (e.g. `export RASPBERRY_PI_FIRMWARE=latest`)
@@ -28,9 +32,16 @@ run `sudo mount -o remount,rw /k3os/system` on the running systems and make the 
 reboot. Make sure to keep the config.yaml up-to-date with the respective yaml in your checkout of this repository, in case
 you do need to provision a new image, though!
 
-When new versions of k3os come out, or there are changes to this repository that you want to perform onto your devices, it's
+To autoupgrade to new k3os versions you may enable the k3os upgrade feature by adding this label to your `config.yaml`
+```yaml
+k3os:
+  labels:
+    k3os.io/upgrade: enabled
+```
+
+In case there are major changes to this repository and you want to perform a reinstall on your devices, it's
 easiest to create a new image and flash it onto the device. However, depending on where your cluster data is stored, this may
-mean you need to reapply cluster configs to your master. This is a TODO, as I'd like to make this easier.
+mean you need to reapply cluster configs to your master or use a k8s backup and restore solution like [velero](https://velero.io/).
 
 ## Troubleshooting
 
@@ -60,13 +71,13 @@ building on a Mac or Windows.
 
 If you want to build in Docker, you can build a container containing the dependencies using:
 
-```
+```shell
 docker build . -t picl-builder:latest
 ```
 
 Then, run the container using:
 
-```
+```shell
 docker run -e TARGET=all -v ${PWD}:/app -v /dev:/dev --privileged picl-builder:latest
 ```
 
