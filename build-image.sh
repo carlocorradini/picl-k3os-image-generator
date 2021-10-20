@@ -99,7 +99,7 @@ if [ "$IMAGE_TYPE" = "orangepipc2" ]; then
 fi
 
 ## Download dependencies
-echo "== Checking or downloading dependencies... =="
+echo "=== Checking or downloading dependencies... =="
 
 function dl_dep() {
 	if [ ! -f "deps/$1" ]; then
@@ -168,7 +168,7 @@ dl_dep util-linux-arm64.deb https://launchpadlibrarian.net/495153631/util-linux_
 dl_dep rpi-firmware-nonfree-master.zip https://github.com/RPi-Distro/firmware-nonfree/archive/master.zip
 
 ## Make the image (capacity in MB, not MiB)
-echo "== Making image and filesystems... =="
+echo "=== Making image and filesystems... =="
 IMAGE=$(mktemp picl-k3os-build.iso.XXXXXX)
 
 if [ "$IMAGE_TYPE" = "raspberrypi" ]; then
@@ -212,7 +212,7 @@ sudo tune2fs -i 1m $LODEV_ROOT
 sudo e2label $LODEV_ROOT "root"
 
 ## Initialize root
-echo "== Initializing root... =="
+echo "=== Initializing root... =="
 mkdir root
 sudo mount $LODEV_ROOT root
 sudo mkdir root/bin root/boot root/dev root/etc root/home root/lib root/media
@@ -225,7 +225,7 @@ sudo ln -s /proc/mounts root/etc/mtab
 sudo mknod -m 0666 root/dev/null c 1 3
 
 ## Initialize boot
-echo "== Initializing boot... =="
+echo "=== Initializing boot... =="
 if [ "$IMAGE_TYPE" = "raspberrypi" ]; then
 	PITEMP="$(mktemp -d)"
 	sudo tar -xf deps/raspberrypi-firmware.tar.gz --strip 1 -C $PITEMP
@@ -259,7 +259,7 @@ EOF
 fi
 
 ## Install k3os, busybox and resize dependencies
-echo "== Installing... =="
+echo "=== Installing... =="
 sudo tar -xf deps/k3os-rootfs-arm64.tar.gz --strip 1 -C root
 # config.yaml will be created by init.resizefs based on MAC of eth0
 sudo cp -R config root/k3os/system
@@ -376,4 +376,4 @@ sudo losetup -d $LODEV
 IMAGE_FINAL=picl-k3os-${K3OS_VERSION}-${IMAGE_TYPE}.img
 mv $IMAGE $IMAGE_FINAL
 echo ""
-echo "== $IMAGE_FINAL created. =="
+echo "=== $IMAGE_FINAL created. =="
