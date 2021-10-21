@@ -1,0 +1,19 @@
+# worker
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDj9xriH4kr8JVrFiFyy8/QvFrYFOnOCMNF6xiow5IMyCIDDv9RSuqxSOLWBe/jR1BLB5rAHxYP+OF41lGHf/FGN/yxxh6M8OicYclWFPU1MCUNYfSIQ7W7bU108O2L668/OplJGmDe3Jo51BS6fPu1Fo3UN6TlrXjsEpHgB7cCOUL0x1W29dq9T/tv/AYgjMpIyJU2Tep5cp6yqBJeGpBfJpd2o2KgR+8r6Vp7hwtzVTcYrzgGKo8ffzjM1y7XyCH9rjufD7Vq7f73E6l2tiMqr9zzHKKbxWT0m0LAa/HWBZxt4w4zbskWqEn/qDPuss4K3NdKHOAF/z4Nu0OMjF1yFgsqpuXbOkgkhMbP2I7xo3aNjiJtMk8X5bLWDa5lE1sM35f6GJuIcKRHyGlmMxpTZM9HvYr5h0sT5KkKtMronSmrhoz0+WOO0G+aQsqzbdDrerhsahhjfERgHbrVkGR9wyJrAuUoZbfQ04U3rlKKI3O3QLyR56VWabAyfzX7uyk=
+hostname: worker
+boot_cmd:
+  - "ln -sf /etc/init.d/swclock /etc/runlevels/boot/swclock"
+k3os:
+  password: password
+  dns_nameservers:
+    - 1.1.1.1
+    - 1.0.0.1
+  ntp_servers:
+    - pool.ntp.org
+  k3s_args:
+    - agent
+  token: K1021830486225d9e1ca119eef5369719d1fed3444f07d07038c9436d55ff3f47c1::server:7213333a0143b19b7f9fd803cec3373d
+  server_url: https://192.168.0.49:6443
+  labels:
+    k3os.io/upgrade: enabled

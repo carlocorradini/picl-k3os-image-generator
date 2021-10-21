@@ -1,4 +1,3 @@
-config/*.yaml
 picl-k3os-*.img*
 picl-k3os-*.iso*
 deps
