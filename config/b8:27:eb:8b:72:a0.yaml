@@ -13,7 +13,7 @@ k3os:
     - pool.ntp.org
   k3s_args:
     - agent
-  token: K1021830486225d9e1ca119eef5369719d1fed3444f07d07038c9436d55ff3f47c1::server:7213333a0143b19b7f9fd803cec3373d
+  token: password
   server_url: https://192.168.0.49:6443
   labels:
     k3os.io/upgrade: enabled

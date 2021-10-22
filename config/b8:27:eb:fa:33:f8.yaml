@@ -14,7 +14,7 @@ k3os:
   k3s_args:
     - server
     - "--cluster-init"
-  # FIXME Remove hardcoded token
-  token: K1021830486225d9e1ca119eef5369719d1fed3444f07d07038c9436d55ff3f47c1::server:7213333a0143b19b7f9fd803cec3373d
+  # FIXME Remove hardcoded cluster secret
+  token: password
   labels:
     k3os.io/upgrade: enabled
